@@ -104,6 +104,8 @@ ENV/
 # IDE settings
 .vscode/
 .idea/
+.devcontainer
+.github
 
 # Mac
 .DS_Store
