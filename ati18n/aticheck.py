@@ -11,7 +11,10 @@ class BaseCheck:
     def output_result(self, df):
         pass
 
-
+    """ 
+        path：i18n文件路径，不允许有子目录
+        regex：获取i18n文件的正则表达式
+    """
     def check(self, path, regex):
         df = self.load_file(path, regex)
         self.output_result(df)        
@@ -54,12 +57,8 @@ class CheckJava(BaseCheck):
 
 
 class CheckVue(BaseCheck):
-
-    def extract_dict(self, f):
-        pass
+    pass
 
 
 class CheckFlask(BaseCheck):
-
-    def extract_dict(self, f):
-        pass
+    pass
