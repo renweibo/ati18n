@@ -1,5 +1,8 @@
 """Main module."""
-import pandas as pd
+from aticheck import CheckJava
+from aticheck import CheckVue
+from aticheck import CheckFlask
+
 
 class Ati18n:
 
@@ -11,13 +14,14 @@ class Ati18n:
     def start(self):
         assert self.path.is_dir(), 'argument path is not directory: %s' % self.path
         if (self.app_type == 'Java'):
-            self.check_java()
+            check_obj = CheckJava()
         elif (self.app_type == 'Vue'):
-            self.check_vue()
+            check_obj = CheckVue()
         elif (self.app_type == 'Flask'):
-            self.check_flask()
+            check_obj = CheckFlask
+        check_obj.check(self.path, '*.properties')
 
-
+'''
     # 对java属性文件进行检查
     def check_java(self):
         data = {}
@@ -52,3 +56,4 @@ class Ati18n:
                 if strs[1]:
                     properties[strs[0]] = strs[1]
         return properties
+'''
