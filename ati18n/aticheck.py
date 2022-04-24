@@ -1,3 +1,8 @@
+
+__author__ = """painterg"""
+__email__ = '22396997@qq.com'
+
+
 import pandas as pd
 
 class BaseCheck:
