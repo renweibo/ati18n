@@ -4,6 +4,9 @@ __email__ = '22396997@qq.com'
 
 
 import pandas as pd
+from . import *
+from .ati18n import DataType, OutputDataItem, OutputDataSimple, OutputResult
+import json
 
 class BaseCheck:
 
@@ -12,9 +15,23 @@ class BaseCheck:
         pass
         
     
-    """ 数据内容会被整理成dataFrame格式进行后续的检查工作"""
+    """ 数据内容会被整理成dataFrame格式进行后续的检查工作 """
     def output_result(self, df):
         pass
+
+    """ check errors about the type of 1001 return list"""
+    def check_1001(self,data):
+        return []
+
+
+    """ check errors about the type of 1002 return list"""
+    def check_1002(self,data):
+        return []
+
+
+    """ check errors about the type of 2001 return list"""
+    def check_2001(self,data):
+        return []
 
     """ 
         path：i18n文件路径，不允许有子目录
@@ -22,7 +39,11 @@ class BaseCheck:
     """
     def check(self, path, regex):
         df = self.load_file(path, regex)
-        self.output_result(df)        
+        data1 = self.check_1001(df)
+        data2 = self.check_1002(df)
+        data3 = self.check_2001(df)
+        data = data1 + data2 + data3
+        # self.output_result(data)        
 
 
     def load_file(self, path, regex):
@@ -39,6 +60,10 @@ class BaseCheck:
             properties = self.extract_dict(f)
             return properties
 
+    # 把df转化成json文件，并保留中文显示
+    def to_json(self, df):
+        return df.to_json(force_ascii=False)
+
 
 
 class CheckJava(BaseCheck):
@@ -48,12 +73,29 @@ class CheckJava(BaseCheck):
         for line in f:
             if line.find('=') > 0:
                 strs = line.replace('\n', '').split('=')
-                if strs[1]:
-                    properties[strs[0]] = strs[1]
+                properties[strs[0]] = strs[1]
+                    
         return properties
 
     
-    def output_result(self, df):
+    def check_1001(self, df):
+        results = []
+        for row in df.iterrows():
+            name = row[0]
+            value = row[1]
+            for item in value.items():
+                file_name = item[0]
+                v = item[1]
+                if len(v) == 0:
+                    print(DataType.File)
+                    data = OutputDataSimple(DataType.File, item[0])
+                    result = OutputResult(ERROR_1001['no'], ERROR_1001['level'], ERROR_1001['scope'], ERROR_1001['name'], data.json, ERROR_1001['comment'])
+                    results.append(result)
+        return results
+
+
+    def output_result(self, data):
+        
         result = df[df.isnull().T.any()]
         print('----------------------------------------------')
         print(result)
