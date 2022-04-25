@@ -110,3 +110,4 @@ ENV/
 
 #test resources
 *.properties
+*.tmp
