@@ -3,7 +3,7 @@ __author__ = """painterg"""
 __email__ = '22396997@qq.com'
 
 import pandas as pd
-from . import *
+from .common import *
 import json
 
 class BaseCheck:
