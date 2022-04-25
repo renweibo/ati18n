@@ -4,6 +4,8 @@ from aticheck import CheckVue
 from aticheck import CheckFlask
 
 
+print(ERROR_1001.no)
+
 class Ati18n:
 
     def __init__(self, app_type, path):
@@ -20,3 +22,4 @@ class Ati18n:
         elif (self.app_type == 'Flask'):
             check_obj = CheckFlask
         check_obj.check(self.path, '*.properties')
+        print(ERROR_1001)
