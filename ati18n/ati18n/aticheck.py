@@ -86,9 +86,9 @@ class CheckJava(BaseCheck):
                 file_name = item[0]
                 v = item[1]
                 if len(v) == 0:
-                    print(DataType.File)
-                    data = OutputDataSimple(type=DataType.File, file_path=item[0])
+                    data = OutputDataSimple(type=DataType.File.value, file_path=item[0])
                     result = OutputResult(No=ERROR_1001['no'], Level=ERROR_1001['level'], Scope=ERROR_1001['scope'], Name=ERROR_1001['name'], Data=data.json, comment=ERROR_1001['comment'])
+                    print(result.json)
                     results.append(result)
         return results
 
