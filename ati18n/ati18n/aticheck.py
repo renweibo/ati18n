@@ -4,6 +4,7 @@ __email__ = '22396997@qq.com'
 
 import pandas as pd
 from .common import *
+from . import *
 import json
 
 class BaseCheck:
