@@ -2,10 +2,8 @@
 __author__ = """painterg"""
 __email__ = '22396997@qq.com'
 
-
 import pandas as pd
 from . import *
-from .ati18n import DataType, OutputDataItem, OutputDataSimple, OutputResult
 import json
 
 class BaseCheck:
