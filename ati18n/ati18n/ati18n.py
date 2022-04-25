@@ -1,10 +1,10 @@
 """Main module."""
-from aticheck import CheckJava
-from aticheck import CheckVue
-from aticheck import CheckFlask
+from .aticheck import CheckJava
+from .aticheck import CheckVue
+from .aticheck import CheckFlask
+from . import *
 
-
-print(ERROR_1001.no)
+print(ERROR_1001["no"])
 
 class Ati18n:
 
