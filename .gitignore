@@ -109,5 +109,4 @@ ENV/
 .DS_Store
 
 #test resources
-*.properties
 *.tmp
