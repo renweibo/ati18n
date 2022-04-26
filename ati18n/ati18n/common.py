@@ -21,6 +21,14 @@ class OutputBase:
         return {s: getattr(self, s) for s in self.__slots__ if hasattr(self, s)}
 
 
+class OutputHead(OutputBase):
+
+    __slots__ = ('tools', 'version', 'app_path', 'app_type', 'datetime', 'result')
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
 class OutputResult(OutputBase):
    
     __slots__ = ('No', 'Level', 'Scope', 'Name', 'Data', 'Comment')

@@ -6,6 +6,8 @@ import pandas as pd
 from .common import *
 from . import *
 import json
+import time, datetime, pytz
+import os
 
 class BaseCheck:
 
@@ -42,7 +44,7 @@ class BaseCheck:
         data2 = self.check_1002(df)
         data3 = self.check_2001(df)
         data = data1 + data2 + data3
-        # self.output_result(data)        
+        self.output_result(data)        
 
 
     def load_file(self, path, regex):
@@ -87,19 +89,24 @@ class CheckJava(BaseCheck):
                 v = item[1]
                 if len(v) == 0:
                     data = OutputDataSimple(type=DataType.File.value, file_path=item[0])
-                    result = OutputResult(No=ERROR_1001['no'], Level=ERROR_1001['level'], Scope=ERROR_1001['scope'], Name=ERROR_1001['name'], Data=data.json, comment=ERROR_1001['comment'])
-                    print(result.json)
-                    results.append(result)
+                    result = OutputResult(No=ERROR_1001['no'], Level=ERROR_1001['level'], Scope=ERROR_1001['scope'], Name=ERROR_1001['name'], Data=data.json, Comment=ERROR_1001['comment'])
+                    results.append(result.json)
         return results
 
 
     def output_result(self, data):
-        
-        result = df[df.isnull().T.any()]
-        print('----------------------------------------------')
-        print(result)
-        print('----------------------------------------------')
-        print('异常项总数为:%s' % len(result))
+        app_path = os.getcwd()
+        json_result = json.dumps(data, ensure_ascii=False)
+        output_head = OutputHead(tools=OUTPUT_HEAD['tools'], version=OUTPUT_HEAD['version'], app_type=OUTPUT_HEAD['app_type'], app_path=app_path, datetime=self.get_now(), result=data)
+        with open(app_path+ '/' + 'result.json', mode='w') as f:
+            json.dump(output_head.json, f, ensure_ascii=False, indent=3)
+            print('check is done...')
+
+    
+    def get_now(self):
+        utc = pytz.timezone('Asia/Shanghai')
+        t = datetime.datetime.now(tz=utc).strftime('%Y-%m-%d %H:%M:%S')
+        return t        
 
 
 class CheckVue(BaseCheck):
