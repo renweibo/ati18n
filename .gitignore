@@ -110,3 +110,4 @@ ENV/
 
 #test resources
 *.tmp
+result.json
