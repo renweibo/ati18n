@@ -125,4 +125,9 @@ $ bump2version patch # possible: major / minor / patch
 $ git push
 $ git push --tags
 
+
+pip install twine
+python setup.py sdist bdist_wheel
+twine upload dist/*
+
 Travis will then deploy to PyPI if tests pass.
