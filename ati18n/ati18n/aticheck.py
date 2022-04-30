@@ -3,6 +3,7 @@ __author__ = """painterg"""
 __email__ = '22396997@qq.com'
 
 import pandas as pd
+import py3langid as langid
 from .common import *
 from . import *
 import json
@@ -21,28 +22,28 @@ class BaseCheck:
         pass
 
     """ check errors about the type of 1001 return list"""
-    def check_1001(self,data):
+    def check_1001(self, app_type, data):
         return []
 
 
     """ check errors about the type of 1002 return list"""
-    def check_1002(self,data):
+    def check_1002(self, app_type, data):
         return []
 
 
     """ check errors about the type of 2001 return list"""
-    def check_2001(self,data):
+    def check_2001(self, app_type, data):
         return []
 
     """ 
         path：i18n文件路径，不允许有子目录
         regex：获取i18n文件的正则表达式
     """
-    def check(self, path, regex):
+    def check(self,app_type, path, regex):
         df = self.load_file(path, regex)
-        data1 = self.check_1001(df)
-        data2 = self.check_1002(df)
-        data3 = self.check_2001(df)
+        data1 = self.check_1001(app_type, df)
+        data2 = self.check_1002(app_type, df)
+        data3 = self.check_2001(app_type, df)
         data = data1 + data2 + data3
         self.output_result(data)        
 
@@ -79,11 +80,13 @@ class CheckJava(BaseCheck):
         return properties
 
     
-    def check_1001(self, df):
+    def check_1001(self, app_type, data):
         results = []
-        for row in df.iterrows():
+        ''' 获取df中每一行的数据，name为待翻译的key，value为行数据 '''
+        for row in data.iterrows():
             name = row[0]
             value = row[1]
+            ''' item为每一行的列数据，item[0]为列头，item[1]为列值 '''
             for item in value.items():
                 file_name = item[0]
                 v = item[1]
@@ -91,6 +94,23 @@ class CheckJava(BaseCheck):
                     data = OutputDataSimple(type=DataType.File.value, file_path=item[0])
                     result = OutputResult(No=ERROR_1001['no'], Level=ERROR_1001['level'], Scope=ERROR_1001['scope'], Name=ERROR_1001['name'], Data=data.json, Comment=ERROR_1001['comment'])
                     results.append(result.json)
+        return results
+
+
+    def check_1002(self, app_type, data):
+        results = []
+        for row in data.iterrows():
+            name = row[0]
+            value = row[1]
+            for item in value.items():
+                file_name = item[0]
+                v = item[1]
+                if len(v) > 0:
+                    lang = langid.classify(v)
+                    if not self.determine_lang(file_name, lang[0], app_type):
+                        data = OutputDataSimple(type=DataType.File.value, file_path=item[0])
+                        result = OutputResult(No=ERROR_1002['no'], Level=ERROR_1002['level'], Scope=ERROR_1002['scope'], Name=ERROR_1002['name'], Data=data.json, Comment=ERROR_1002['comment'])
+                        results.append(result.json)
         return results
 
 
@@ -107,6 +127,18 @@ class CheckJava(BaseCheck):
         utc = pytz.timezone('Asia/Shanghai')
         t = datetime.datetime.now(tz=utc).strftime('%Y-%m-%d %H:%M:%S')
         return t        
+
+
+    def determine_lang(self, file_name, lang_type, app_type):
+        if (lang_type == 'zh' and app_type == 'Java'):
+            lang_type = 'zh_CN'
+        end = file_name.find('.properties')
+        start = end - len(lang_type)
+        type_from_file_name=file_name[start:end]
+        if (lang_type == type_from_file_name):
+            return True
+        else:
+            return False
 
 
 class CheckVue(BaseCheck):
