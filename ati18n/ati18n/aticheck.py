@@ -1,13 +1,12 @@
 
-__author__ = """painterg"""
+__author__ = 'painterg'
 __email__ = '22396997@qq.com'
 
 import pandas as pd
-import py3langid as langid
 from .common import *
+from .utils import *
 from . import *
 import json
-import time, datetime, pytz
 import os
 
 class BaseCheck:
@@ -106,8 +105,7 @@ class CheckJava(BaseCheck):
                 file_name = item[0]
                 v = item[1]
                 if len(v) > 0:
-                    lang = langid.classify(v)
-                    if not self.determine_lang(file_name, lang[0], app_type):
+                    if not determine_lang(file_name, v, app_type):
                         data = OutputDataSimple(type=DataType.File.value, file_path=item[0])
                         result = OutputResult(No=ERROR_1002['no'], Level=ERROR_1002['level'], Scope=ERROR_1002['scope'], Name=ERROR_1002['name'], Data=data.json, Comment=ERROR_1002['comment'])
                         results.append(result.json)
@@ -117,28 +115,10 @@ class CheckJava(BaseCheck):
     def output_result(self, data):
         app_path = os.getcwd()
         json_result = json.dumps(data, ensure_ascii=False)
-        output_head = OutputHead(tools=OUTPUT_HEAD['tools'], version=OUTPUT_HEAD['version'], app_type=OUTPUT_HEAD['app_type'], app_path=app_path, datetime=self.get_now(), result=data)
+        output_head = OutputHead(tools=OUTPUT_HEAD['tools'], version=OUTPUT_HEAD['version'], app_type=OUTPUT_HEAD['app_type'], app_path=app_path, datetime=get_now(), result=data)
         with open(app_path+ '/' + 'result.json', mode='w') as f:
             json.dump(output_head.json, f, ensure_ascii=False, indent=3)
             print('check is done...')
-
-    
-    def get_now(self):
-        utc = pytz.timezone('Asia/Shanghai')
-        t = datetime.datetime.now(tz=utc).strftime('%Y-%m-%d %H:%M:%S')
-        return t        
-
-
-    def determine_lang(self, file_name, lang_type, app_type):
-        if (lang_type == 'zh' and app_type == 'Java'):
-            lang_type = 'zh_CN'
-        end = file_name.find('.properties')
-        start = end - len(lang_type)
-        type_from_file_name=file_name[start:end]
-        if (lang_type == type_from_file_name):
-            return True
-        else:
-            return False
 
 
 class CheckVue(BaseCheck):
