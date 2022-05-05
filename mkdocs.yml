@@ -1,0 +1,6 @@
+site_name: ati18n Document 文档站
+nav:
+    - Home: 'index.md'
+    - Author: 'AUTHORS.md'
+theme:
+    name: readthedocs

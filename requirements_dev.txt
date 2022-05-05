@@ -11,3 +11,4 @@ pytest==6.2.4
 Click
 typer
 py3langid
+mkdocs
