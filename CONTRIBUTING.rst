@@ -125,7 +125,7 @@ $ bump2version patch # possible: major / minor / patch
 $ git push
 $ git push --tags
 
-
+rm -rf build/* dist/*
 pip install twine
 python setup.py sdist bdist_wheel
 twine upload dist/*
