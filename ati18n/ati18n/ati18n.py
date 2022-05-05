@@ -22,5 +22,5 @@ class Ati18n:
         elif (self.app_type == 'Flask'):
             check_obj = CheckFlask
             regex = ''
-        check_obj.check(self.path, regex)
+        check_obj.check(self.app_type, self.path, regex)
 
