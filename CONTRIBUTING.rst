@@ -122,8 +122,7 @@ Make sure all your changes are committed (including an entry in HISTORY.rst).
 Then run::
 
 $ bump2version patch # possible: major / minor / patch
-$ git push
-$ git push --tags
+$ git push && git push --tags
 
 rm -rf build/* dist/*
 pip install twine
