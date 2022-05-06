@@ -5,7 +5,7 @@ __email__ = '22396997@qq.com'
 import json
 import os
 import pandas as pd
-from .constants import *
+from .constants import OUTPUT_HEAD, ERROR_1001, ERROR_1002, ERROR_2001
 from .common import OutputHead
 from .utils import out_template_file
 from .utils import out_template_item
