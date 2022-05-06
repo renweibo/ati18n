@@ -15,8 +15,8 @@ class APPType(str, Enum):
 
 
 @app.command()
-def check(path: Path = typer.Argument(..., help="应用路径"), 
-    app_type: APPType = typer.Option("Java", "--type", "-t", help="specify the app type. 指定应用类型")):
+def check(path: Path = typer.Argument(..., help="应用路径"),
+          app_type: APPType = typer.Option("Java", "--type", "-t", help="specify the app type. 指定应用类型")):
 
     """Console script for ati18n.
 

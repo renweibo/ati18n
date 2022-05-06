@@ -7,9 +7,8 @@ from .aticheck import CheckFlask
 class Ati18n:
 
     def __init__(self, app_type, path):
-        self.app_type=app_type
-        self.path=path
-    
+        self.app_type = app_type
+        self.path = path
 
     def start(self):
         assert self.path.is_dir(), 'argument path is not directory: %s' % self.path
@@ -23,4 +22,3 @@ class Ati18n:
             check_obj = CheckFlask
             regex = ''
         check_obj.check(self.app_type, self.path, regex)
-

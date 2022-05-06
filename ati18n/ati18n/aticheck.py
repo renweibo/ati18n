@@ -3,11 +3,18 @@ __author__ = 'painterg'
 __email__ = '22396997@qq.com'
 
 import pandas as pd
-from .common import *
-from .utils import *
-from . import *
+from .common import OutputHead
+from .utils import out_template_file
+from .utils import out_template_item
+from .utils import determine_lang
+from .utils import get_now
+from . import OUTPUT_HEAD
+from . import ERROR_1001
+from . import ERROR_1002
+from . import ERROR_2001
 import json
 import os
+
 
 class BaseCheck:
 
@@ -20,8 +27,7 @@ class BaseCheck:
     """ 抽取文件数据抽取成字典格式：把每份文件的内容抽取成字典表 """
     def extract_dict(self, f):
         pass
-        
-    
+
     """ 数据内容会被整理成dataFrame格式进行后续的检查工作 """
     def output_result(self, df):
         pass
@@ -30,16 +36,15 @@ class BaseCheck:
     def check_file(self, app_type, file_name, value):
         return None
 
-
     """ check errors about the type of 1003"""
     def check_item(self, app_type, file_name, value):
         return None
 
-    """ 
+    """
         path：i18n文件路径，不允许有子目录
         regex：获取i18n文件的正则表达式
     """
-    def check(self,app_type, path, regex):
+    def check(self, app_type, path, regex):
         df = self.load_file(path, regex)
         data = []
         ''' 获取df中每一行的数据，name为待翻译的key，value为行数据 '''
@@ -50,10 +55,11 @@ class BaseCheck:
             for item in value.items():
                 data1 = self.check_file(app_type, item[0], item[1])
                 data2 = self.check_item(app_type, item[0], key, item[1])
-                if data1 is not None: data.append(data1)
-                if data2 is not None: data.append(data2)
-        self.output_result(data)        
-
+                if data1 is not None:
+                    data.append(data1)
+                if data2 is not None:
+                    data.append(data2)
+        self.output_result(data)
 
     def load_file(self, path, regex):
         data = {}
@@ -61,7 +67,6 @@ class BaseCheck:
             assert file.is_file(), 'the directory contain sub directory'
             data[file.name] = self.convert_file(file)
         return pd.DataFrame(data)
-
 
     # 读取属性文件
     def convert_file(self, file):
@@ -82,20 +87,17 @@ class CheckJava(BaseCheck):
             if line.find('=') > 0:
                 strs = line.replace('\n', '').split('=')
                 properties[strs[0]] = strs[1]
-                    
         return properties
 
-    
     def check_file(self, app_type, file_name, value):
         result = None
-        if self.check_file and len(value) == 0  and self.count_status.count(file_name) == 0:
+        if self.check_file and len(value) == 0 and self.count_status.count(file_name) == 0:
             self.count_status.append(file_name)
             result = out_template_file(file_name, ERROR_1001)
         elif self.check_1002 and len(value) > 0 and not determine_lang(file_name, value, app_type)[0] and self.lang_status.count(file_name) == 0:
             self.lang_status.append(file_name)
             result = out_template_file(file_name, ERROR_1002)
         return result.json if result is not None else None
-
 
     def check_item(self, app_type, file_name, key, value):
         result = None
@@ -107,9 +109,8 @@ class CheckJava(BaseCheck):
 
     def output_result(self, data):
         app_path = os.getcwd()
-        json_result = json.dumps(data, ensure_ascii=False)
         output_head = OutputHead(tools=OUTPUT_HEAD['tools'], version=OUTPUT_HEAD['version'], app_type=OUTPUT_HEAD['app_type'], app_path=app_path, datetime=get_now(), result=data)
-        with open(app_path+ '/' + 'result.json', mode='w') as f:
+        with open(app_path + '/' + 'result.json', mode='w') as f:
             json.dump(output_head.json, f, ensure_ascii=False, indent=3)
             print('check is done...')
 
