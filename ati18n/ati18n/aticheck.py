@@ -7,10 +7,7 @@ import os
 import pandas as pd
 from .constants import OUTPUT_HEAD, ERROR_1001, ERROR_1002, ERROR_2001
 from .common import OutputHead
-from .utils import out_template_file
-from .utils import out_template_item
-from .utils import determine_lang
-from .utils import get_now
+from .utils import out_template_file, out_template_item, determine_lang, get_now
 
 
 class BaseCheck:
