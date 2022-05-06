@@ -7,6 +7,6 @@
 
 ## Contributors 核心开发
 
-* 
+* Painter G <22396997@qq.com>: 用技术赋能，不负韶华不负卿
 
 
