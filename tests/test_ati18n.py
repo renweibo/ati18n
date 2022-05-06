@@ -5,8 +5,6 @@
 import pytest
 
 from click.testing import CliRunner
-
-from ati18n import ati18n
 from ati18n import cli
 
 
