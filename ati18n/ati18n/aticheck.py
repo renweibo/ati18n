@@ -2,18 +2,15 @@
 __author__ = 'painterg'
 __email__ = '22396997@qq.com'
 
+import json
+import os
 import pandas as pd
+from .constants import *
 from .common import OutputHead
 from .utils import out_template_file
 from .utils import out_template_item
 from .utils import determine_lang
 from .utils import get_now
-from . import OUTPUT_HEAD
-from . import ERROR_1001
-from . import ERROR_1002
-from . import ERROR_2001
-import json
-import os
 
 
 class BaseCheck:

@@ -1,6 +1,5 @@
 """Main module."""
 
-from .constants import *
 
 from .aticheck import CheckJava
 from .aticheck import CheckVue

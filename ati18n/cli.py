@@ -2,7 +2,7 @@
 from pathlib import Path
 import typer
 from enum import Enum
-from ati18n import Ati18n
+from ati18n.ati18n import Ati18n
 
 
 app = typer.Typer(help="Awesome CLI user manager.")
