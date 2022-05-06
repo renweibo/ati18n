@@ -25,18 +25,22 @@ class BaseCheck:
     check_2001 = True
 
     """ 抽取文件数据抽取成字典格式：把每份文件的内容抽取成字典表 """
+
     def extract_dict(self, f):
         pass
 
     """ 数据内容会被整理成dataFrame格式进行后续的检查工作 """
+
     def output_result(self, df):
         pass
 
     """ check errors about the type of 1001 and 1002"""
+
     def check_file(self, app_type, file_name, value):
         return None
 
     """ check errors about the type of 1003"""
+
     def check_item(self, app_type, file_name, value):
         return None
 
@@ -44,6 +48,7 @@ class BaseCheck:
         path：i18n文件路径，不允许有子目录
         regex：获取i18n文件的正则表达式
     """
+
     def check(self, app_type, path, regex):
         df = self.load_file(path, regex)
         data = []
@@ -94,7 +99,10 @@ class CheckJava(BaseCheck):
         if self.check_file and len(value) == 0 and self.count_status.count(file_name) == 0:
             self.count_status.append(file_name)
             result = out_template_file(file_name, ERROR_1001)
-        elif self.check_1002 and len(value) > 0 and not determine_lang(file_name, value, app_type)[0] and self.lang_status.count(file_name) == 0:
+        elif self.check_1002 and len(value) > 0  \
+                and not determine_lang(file_name, value, app_type)[0]  \
+                and self.lang_status.count(file_name) == 0:
+
             self.lang_status.append(file_name)
             result = out_template_file(file_name, ERROR_1002)
         return result.json if result is not None else None
@@ -109,7 +117,13 @@ class CheckJava(BaseCheck):
 
     def output_result(self, data):
         app_path = os.getcwd()
-        output_head = OutputHead(tools=OUTPUT_HEAD['tools'], version=OUTPUT_HEAD['version'], app_type=OUTPUT_HEAD['app_type'], app_path=app_path, datetime=get_now(), result=data)
+        output_head = OutputHead(
+            tools=OUTPUT_HEAD['tools'],
+            version=OUTPUT_HEAD['version'],
+            app_type=OUTPUT_HEAD['app_type'],
+            app_path=app_path,
+            datetime=get_now(),
+            result=data)
         with open(app_path + '/' + 'result.json', mode='w') as f:
             json.dump(output_head.json, f, ensure_ascii=False, indent=3)
             print('check is done...')

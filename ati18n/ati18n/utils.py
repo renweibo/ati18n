@@ -32,12 +32,30 @@ def determine_lang(file_name, value, app_type):
 
 def out_template_file(file_name, error):
     data = OutputDataSimple(type=DataType.File.value, file_path=file_name)
-    result = OutputResult(No=error['no'], Level=error['level'], Scope=error['scope'], Name=error['name'], Data=data.json, Comment=error['comment'])
+    result = OutputResult(
+        No=error['no'],
+        Level=error['level'],
+        Scope=error['scope'],
+        Name=error['name'],
+        Data=data.json,
+        Comment=error['comment'])
     return result
 
 
 def out_template_item(file_name, error, key, value, code):
     data = OutputDataSimple(type=DataType.File.value, file_path=file_name)
-    data = OutputDataItem(type=DataType.Item.value, file_path=file_name, key_name=key, key_value=value, lang_code=code, info='')
-    result = OutputResult(No=error['no'], Level=error['level'], Scope=error['scope'], Name=error['name'], Data=data.json, Comment=error['comment'])
+    data = OutputDataItem(
+        type=DataType.Item.value,
+        file_path=file_name,
+        key_name=key,
+        key_value=value,
+        lang_code=code,
+        info='')
+    result = OutputResult(
+        No=error['no'],
+        Level=error['level'],
+        Scope=error['scope'],
+        Name=error['name'],
+        Data=data.json,
+        Comment=error['comment'])
     return result
