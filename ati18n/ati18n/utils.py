@@ -4,10 +4,7 @@ __email__ = '22396997@qq.com'
 import py3langid as langid
 import datetime
 import pytz
-from .common import OutputDataSimple
-from .common import OutputDataItem
-from .common import OutputResult
-from .common import DataType
+from .common import OutputDataSimple, OutputDataItem, OutputResult, DataType
 
 
 def get_now():
