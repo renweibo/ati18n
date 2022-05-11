@@ -11,8 +11,10 @@
   "settings": {},
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "donjayamanne.python-extension-pack"
-  ],
+	"donjayamanne.python-extension-pack",
+	"GitHub.remotehub",
+	"GitHub.vscode-pull-request-github"
+],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
   // Use 'postCreateCommand' to run commands after the container is created.
