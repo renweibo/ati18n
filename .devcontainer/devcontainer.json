@@ -13,7 +13,8 @@
   "extensions": [
 	"donjayamanne.python-extension-pack",
 	"GitHub.remotehub",
-	"GitHub.vscode-pull-request-github"
+	"GitHub.vscode-pull-request-github",
+	"eamodio.gitlens"
 ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
