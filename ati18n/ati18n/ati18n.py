@@ -12,15 +12,16 @@ class Ati18n:
         self.app_type = app_type
         self.path = path
 
-    def start(self):
+    def start(self, config_path):
+        print(config_path)
         assert self.path.is_dir(), 'argument path is not directory: %s' % self.path
-        if (self.app_type == 'Java'):
+        if (self.app_type == 'java'):
             check_obj = CheckJava()
             regex = '*.properties'
-        elif (self.app_type == 'Vue'):
+        elif (self.app_type == 'vue'):
             check_obj = CheckVue()
             regex = ''
-        elif (self.app_type == 'Flask'):
+        elif (self.app_type == 'flask'):
             check_obj = CheckFlask
-            regex = ''
+            regex = '' 
         check_obj.check(self.app_type, self.path, regex)
