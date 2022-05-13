@@ -5,7 +5,7 @@ from enum import Enum
 from ati18n.ati18n import Ati18n
 
 
-app = typer.Typer(help="Awesome CLI user manager.")
+main = typer.Typer(help="Awesome CLI user manager.")
 
 
 class APPType(str, Enum):
@@ -14,7 +14,7 @@ class APPType(str, Enum):
     Flask = "Flask"
 
 
-@app.command()
+@main.command()
 def check(path: Path = typer.Argument(..., help="应用路径"),
           app_type: APPType = typer.Option("Java", "--type", "-t", help="specify the app type. 指定应用类型")):
 
@@ -30,4 +30,4 @@ def check(path: Path = typer.Argument(..., help="应用路径"),
 
 
 if __name__ == "__main__":
-    app()
+    main()
