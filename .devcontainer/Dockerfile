@@ -13,4 +13,3 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 USER jovyan
 RUN pip3 install -U flask sh httpie openpyxl typer
 RUN pip3 install -U -r requirements_dev.txt
-CMD ati18n
