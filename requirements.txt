@@ -1,0 +1,5 @@
+typer
+py3langid
+pytz
+pandas
+gitpython
