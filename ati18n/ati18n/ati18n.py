@@ -24,4 +24,5 @@ class Ati18n:
         elif (self.app_type.lower() == 'flask'.lower()):
             check_obj = CheckFlask
             regex = '' 
+        check_obj.register_check_function(self.app_type, config_path)
         check_obj.check(self.app_type, self.path, regex)

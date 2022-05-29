@@ -13,6 +13,9 @@ class ConfigUtils:
         config.read(config_path)
         self.config = config
 
+    def get_plugin(self):
+        return self.config[self.app_type]['plugin']
+
     def get_url(self):
         return self.config[self.app_type]['repository.url']
 

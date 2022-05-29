@@ -1,0 +1,113 @@
+{
+   "tools": "ati18n",
+   "version": "0.1.0",
+   "app_path": "/workspaces/ati18n",
+   "app_type": "java",
+   "datetime": "2022-05-11 23:52:36",
+   "result": [
+      {
+         "No": "1002",
+         "Level": "错误",
+         "Scope": "整体翻译",
+         "Name": "文件名指定的语言种类和文件内容不匹配",
+         "Data": {
+            "type": "flie",
+            "file_path": "messages_zh_CN.properties"
+         },
+         "Comment": ""
+      },
+      {
+         "No": "2001",
+         "Level": "警告/错误",
+         "Scope": "单个翻译",
+         "Name": "翻译项和指定的语言类型不匹配",
+         "Data": {
+            "type": "item",
+            "key_name": "name",
+            "key_value": "名字",
+            "lang_code": "zh",
+            "info": "",
+            "file_path": "messages_zh_CN.properties"
+         },
+         "Comment": ""
+      },
+      {
+         "No": "1002",
+         "Level": "错误",
+         "Scope": "整体翻译",
+         "Name": "文件名指定的语言种类和文件内容不匹配",
+         "Data": {
+            "type": "flie",
+            "file_path": "messages_en.properties"
+         },
+         "Comment": ""
+      },
+      {
+         "No": "2001",
+         "Level": "警告/错误",
+         "Scope": "单个翻译",
+         "Name": "翻译项和指定的语言类型不匹配",
+         "Data": {
+            "type": "item",
+            "key_name": "age",
+            "key_value": "ねんれい",
+            "lang_code": "ja",
+            "info": "",
+            "file_path": "messages_en.properties"
+         },
+         "Comment": ""
+      },
+      {
+         "No": "2001",
+         "Level": "警告/错误",
+         "Scope": "单个翻译",
+         "Name": "翻译项和指定的语言类型不匹配",
+         "Data": {
+            "type": "item",
+            "key_name": "age",
+            "key_value": "年龄",
+            "lang_code": "zh",
+            "info": "",
+            "file_path": "messages_zh_CN.properties"
+         },
+         "Comment": ""
+      },
+      {
+         "No": "1001",
+         "Level": "错误",
+         "Scope": "整体翻译",
+         "Name": "翻译条目数不匹配",
+         "Data": {
+            "type": "flie",
+            "file_path": "messages_en.properties"
+         },
+         "Comment": ""
+      },
+      {
+         "No": "2001",
+         "Level": "警告/错误",
+         "Scope": "单个翻译",
+         "Name": "翻译项和指定的语言类型不匹配",
+         "Data": {
+            "type": "item",
+            "key_name": "reset",
+            "key_value": "重启",
+            "lang_code": "zh",
+            "info": "",
+            "file_path": "messages_zh_CN.properties"
+         },
+         "Comment": ""
+      },
+      {
+         "No": "1001",
+         "Level": "错误",
+         "Scope": "整体翻译",
+         "Name": "翻译条目数不匹配",
+         "Data": {
+            "type": "flie",
+            "file_path": "messages_zh_CN.properties"
+         },
+         "Comment": ""
+      }
+   ]
+}

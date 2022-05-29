@@ -4,20 +4,23 @@ __email__ = '22396997@qq.com'
 
 import json
 import os
+from unittest import result
 import pandas as pd
-from .constants import OUTPUT_HEAD, ERROR_1001, ERROR_1002, ERROR_2001
+from .constants import OUTPUT_HEAD
 from .common import OutputHead
-from .utils import out_template_file, out_template_item, determine_lang, get_now
+from .utils import get_now
+from .config_utils import ConfigUtils
+from .check_functions import *
 
 
 class BaseCheck:
 
-    count_status = []
-    lang_status = []
-    check_1001 = True
-    check_1002 = True
-    check_2001 = True
-
+    functions = []
+    ''' {no:{file_name:result.json}} '''
+    file_results = {}
+    ''' result.json列表 '''
+    item_results= []
+    
     """ 抽取文件数据抽取成字典格式：把每份文件的内容抽取成字典表 """
 
     def extract_dict(self, f):
@@ -28,37 +31,42 @@ class BaseCheck:
     def output_result(self, df):
         pass
 
-    """ check errors about the type of 1001 and 1002"""
-
-    def check_file(self, app_type, file_name, value):
-        return None
-
-    """ check errors about the type of 1003"""
-
-    def check_item(self, app_type, file_name, value):
-        return None
-
     """
         path：i18n文件路径，不允许有子目录
         regex：获取i18n文件的正则表达式
     """
+    
+    def register_check_function(self, app_type, config_path):
+        config = ConfigUtils(app_type, config_path)
+        functions = config.get_plugin()
+        self.functions = functions.split(',')
 
     def check(self, app_type, path, regex):
         df = self.load_file(path, regex)
-        data = []
+        datas = []
         ''' 获取df中每一行的数据，name为待翻译的key，value为行数据 '''
         for row in df.iterrows():
             key = row[0]
             value = row[1]
-            ''' item为每一行的列数据，item[0]为列头，item[1]为列值 '''
+            ''' item为每一行的列数据，item[0]为列头(file_name)，item[1]为列值 '''
             for item in value.items():
-                data1 = self.check_file(app_type, item[0], item[1])
-                data2 = self.check_item(app_type, item[0], key, item[1])
-                if data1 is not None:
-                    data.append(data1)
-                if data2 is not None:
-                    data.append(data2)
-        self.output_result(data)
+                for f in self.functions:
+                    data = eval(f)(app_type, item[0], key, item[1])
+                    if data is not None:
+                        if data[0] == 'FILE':
+                            if data[1] in self.file_results:
+                                value_map = self.file_results[data[1]]
+                                value_map[item[0]] = data[2]
+                                self.file_results[data[1]] = value_map
+                            else:
+                                self.file_results[data[1]] = {item[0]: data[2]}
+                        elif data[0] == 'ITEM':
+                            self.item_results.append(data[2])
+        for k, v in self.file_results.items():
+            for sub_k, sub_v in v.items():
+                datas.append(sub_v)
+        datas.extend(self.item_results)
+        self.output_result(datas)
 
     def load_file(self, path, regex):
         data = {}
@@ -87,27 +95,6 @@ class CheckJava(BaseCheck):
                 strs = line.replace('\n', '').split('=')
                 properties[strs[0]] = strs[1]
         return properties
-
-    def check_file(self, app_type, file_name, value):
-        result = None
-        if self.check_file and len(value) == 0 and self.count_status.count(file_name) == 0:
-            self.count_status.append(file_name)
-            result = out_template_file(file_name, ERROR_1001)
-        elif self.check_1002 and len(value) > 0  \
-                and not determine_lang(file_name, value, app_type)[0]  \
-                and self.lang_status.count(file_name) == 0:
-
-            self.lang_status.append(file_name)
-            result = out_template_file(file_name, ERROR_1002)
-        return result.json if result is not None else None
-
-    def check_item(self, app_type, file_name, key, value):
-        result = None
-        if self.check_2001 and len(value) > 0:
-            lang_type = determine_lang(file_name, value, app_type)
-            if not lang_type[0]:
-                result = out_template_item(file_name, ERROR_2001, key, value, lang_type[1])
-        return result.json if result is not None else None
 
     def output_result(self, data):
         app_path = os.getcwd()
