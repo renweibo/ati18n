@@ -2,7 +2,7 @@
 __author__ = 'painterg'
 __email__ = '22396997@qq.com'
 
-from .constants import ERROR_1001, ERROR_1002, ERROR_2001
+from .constants import ERROR_1001, ERROR_1002, ERROR_2001, ERROR_2002
 from .utils import out_template_file, out_template_item, determine_lang
 
 ''' 在函数返回元组之前，根据检测类型添加元组中第一个数据项 '''
@@ -28,3 +28,9 @@ def check_2001(app_type, file_name, key, value):
         if not lang_type[0]:
             result = out_template_item(file_name, ERROR_2001, key, value, lang_type[1])
     return (CHECK_TYPE_ITEM, ERROR_2001['no'], result.json) if result is not None else None
+
+def check_2002(app_type, file_name, key, value):
+    result = None
+    if len(value) == 0:
+        result = out_template_item(file_name, ERROR_2002, key, value, '')
+    return (CHECK_TYPE_ITEM, ERROR_2002['no'], result.json) if result is not None else None
