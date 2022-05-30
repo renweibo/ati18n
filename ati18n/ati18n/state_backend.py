@@ -16,6 +16,7 @@ class StateBackend(object):
         if cls._instance is None:
             cls._instance = object.__new__(cls, *args, **kw)
         return cls._instance
+    
     def __init__(self):
         pass
     
@@ -23,10 +24,19 @@ class StateBackend(object):
         return self.state_dict[name]
     
     def get_value(self, name ,key):
-        return self.state_dict[name][key] if name in self.state_dict else None
+        return self.state_dict[name][key] if name in self.state_dict and key in self.state_dict[name] else None
+    
+    def exists_dict(self, name):
+        return True if name in self.state_dict else False
+    
+    def exists_key(self, name ,key):
+        return True if key in self.state_dict[name] else False
+    
+    def create_dict(self, name):
+        self.state_dict[name] = {}
     
     def put(self, name, key, value):
-        if name in self.state_dict:
+        if self.exists_dict(name):
             value_dict = self.state_dict[name]
             value_dict[key] = value
             self.state_dict[name] = value_dict

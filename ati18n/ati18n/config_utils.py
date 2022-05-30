@@ -6,7 +6,7 @@ from git import Repo
 
 
 class ConfigUtils:
-
+     
     def __init__(self, app_type, config_path):
         self.app_type = app_type
         config = configparser.ConfigParser()
@@ -17,6 +17,18 @@ class ConfigUtils:
         value = self.config.get(self.app_type, 'plugin', fallback='check_1001')
         if len(value) == 0:
             value = 'check_1001'
+        return value
+    
+    def get_key_separtor(self):
+        value = self.config.get(self.app_type, 'key.prefix.separtor', fallback='.')
+        if len(value) == 0:
+            value = '.'
+        return value
+    
+    def get_key_location(self):
+        value = self.config.get(self.app_type, 'key.prefix.location', fallback='2')
+        if len(value) == 0:
+            value = '2'
         return value
 
     def get_url(self):

@@ -4,6 +4,7 @@ __email__ = '22396997@qq.com'
 
 import json
 import os
+from signal import struct_siginfo
 from unittest import result
 import pandas as pd
 from .constants import OUTPUT_HEAD
@@ -50,8 +51,11 @@ class BaseCheck:
             value = row[1]
             ''' item为每一行的列数据，item[0]为列头(file_name)，item[1]为列值 '''
             for item in value.items():
+                temp = item[1]
+                if pd.isna(temp):
+                    temp = ''
                 for f in self.functions:
-                    data = eval(f)(app_type, item[0], key, item[1])
+                    data = eval(f)(app_type, item[0], key, temp)
                     if data is not None:
                         if data[0] == 'FILE':
                             if data[1] in self.file_results:

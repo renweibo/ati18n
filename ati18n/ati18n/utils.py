@@ -17,7 +17,7 @@ def get_now():
 def determine_lang(file_name, value, app_type):
     lang = langid.classify(value)
     lang_type = lang[0]
-    if (lang_type == 'zh' and app_type == 'Java'):
+    if (lang_type == 'zh' and app_type == 'java'):
         lang_type = 'zh_CN'
     end = file_name.find('.properties')
     start = end - len(lang_type)
