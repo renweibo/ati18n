@@ -14,7 +14,10 @@ class ConfigUtils:
         self.config = config
 
     def get_plugin(self):
-        return self.config[self.app_type]['plugin']
+        value = self.config.get(self.app_type, 'plugin', fallback='check_1001')
+        if len(value) == 0:
+            value = 'check_1001'
+        return value
 
     def get_url(self):
         return self.config[self.app_type]['repository.url']
